@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  background: #f0f3f6;
+  color: #3d4a54;
+}
+
+.app__content {
+  margin-left: 196px;
+  padding: 120px 100px 40px 126px;
+}

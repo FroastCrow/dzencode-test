@@ -1,0 +1,19 @@
+.top-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 73px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 160px 0 196px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+.top-menu__logo { color: #6ea43a; font-weight: 700; }
+.top-menu__weekday { font-size: 14px; }
+.top-menu__date { font-size: 13px; color: #3d4a54; }
+.top-menu__time { margin-left: 16px; color: #6ea43a; }

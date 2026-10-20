@@ -1,0 +1,17 @@
+.orders__title { font-size: 28px; font-weight: 700; margin-bottom: 40px; }
+.orders__list { list-style: none; margin: 0; padding: 0; }
+
+.order {
+  display: grid;
+  grid-template-columns: 1fr 120px 160px 200px;
+  align-items: center;
+  gap: 16px;
+  min-height: 72px;
+  margin-bottom: 10px;
+  padding: 0 24px;
+  background: #fff;
+  border: 1px solid #d9dfe5;
+  border-radius: 3px;
+}
+
+.order__title { text-decoration: underline; }
