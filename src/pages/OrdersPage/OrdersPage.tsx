@@ -3,7 +3,7 @@ import { formatDateLong, formatDateShort, formatMoney, sumByCurrency } from '../
 import './OrdersPage.css'
 
 function OrdersPage() {
-  // useSelector достає потрібні дані з глобального стану Redux.
+  // useAppSelector (типізований useSelector) дістає дані з глобального стану Redux.
   const orders = useAppSelector((state) => state.orders.items)
   const products = useAppSelector((state) => state.products.items)
 

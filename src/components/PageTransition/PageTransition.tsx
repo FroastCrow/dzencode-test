@@ -14,7 +14,7 @@ function PageTransition({ locationKey, children }: PageTransitionProps) {
 
   return (
     <SwitchTransition>
-      <CSSTransition key={locationKey} nodeRef={nodeRef} timeout={250} classNames="page" unmountOnExit>
+      <CSSTransition key={locationKey} nodeRef={nodeRef} timeout={250} classNames="page">
         <div ref={nodeRef}>{children}</div>
       </CSSTransition>
     </SwitchTransition>

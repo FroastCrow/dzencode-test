@@ -6,7 +6,7 @@ const links = [
   { to: '/products', label: 'Продукты' },
 ]
 
-// БЭМ: блок "navigation", элемент "navigation__link", модификатор "navigation__link--active".
+// БЕМ: блок "navigation", елемент "navigation__link", модифікатор "navigation__link--active".
 function Navigation() {
   return (
     <nav className="navigation">

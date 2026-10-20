@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
+import { MONTHS, pad } from '../../utils/format'
 import './TopMenu.css'
 
 const WEEKDAYS = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
-const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
-const pad = (n: number) => String(n).padStart(2, '0')
 
 function TopMenu() {
   const [now, setNow] = useState(() => new Date())

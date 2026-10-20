@@ -2,9 +2,17 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { Product } from '../types'
 import { products } from '../data/mockData'
 
+interface ProductsState {
+  items: Product[]
+}
+
+const initialState: ProductsState = {
+  items: products,
+}
+
 const productsSlice = createSlice({
   name: 'products',
-  initialState: { items: products } as { items: Product[] },
+  initialState,
   reducers: {
     // Коли видаляємо прихід, видаляємо і його продукти.
     removeProductsByOrder(state, action: PayloadAction<number>) {

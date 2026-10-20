@@ -2,9 +2,10 @@ import type { Price, Product } from '../types'
 
 // Короткі функції-помічники для відображення дат і сум.
 
-const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
+export const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
 
-const pad = (n: number) => String(n).padStart(2, '0')
+// 6 -> "06": додає нуль спереду, щоб число завжди мало дві цифри.
+export const pad = (n: number) => String(n).padStart(2, '0')
 
 // "2017-04-06 12:09:33" -> Date. Пробіл замінюємо на "T", щоб формат був коректним для всіх браузерів.
 const toDate = (value: string) => new Date(value.replace(' ', 'T'))
@@ -29,5 +30,9 @@ export const sumByCurrency = (products: Product[], symbol: Price['symbol']) =>
   }, 0)
 
 // 250000.5 -> "250 000.50"
+// toLocaleString('ru-RU') розбиває число пробілами на тисячі, але дробову частину
+// відділяє комою ("250 000,50"). На макеті крапка, тому замінюємо кому на крапку.
 export const formatMoney = (value: number) =>
-  value.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  value
+    .toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    .replace(',', '.')
