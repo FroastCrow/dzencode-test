@@ -6,10 +6,11 @@ interface OrderDetailsProps {
   order: Order
   products: Product[]
   onClose: () => void // функцію закриття передає батьківський компонент
+  onDeleteProduct: (productId: number) => void // що робити при кліку на кошик продукту
 }
 
 // Панель приходу, яка відкривається праворуч від списку.
-function OrderDetails({ order, products, onClose }: OrderDetailsProps) {
+function OrderDetails({ order, products, onClose, onDeleteProduct }: OrderDetailsProps) {
   return (
     <section className="order-details">
       <button className="order-details__close" type="button" aria-label="Закрыть" onClick={onClose}>
@@ -27,7 +28,7 @@ function OrderDetails({ order, products, onClose }: OrderDetailsProps) {
       {products.length > 0 ? (
         <ul className="order-details__list list-unstyled">
           {products.map((product) => (
-            <ProductItem key={product.id} product={product} />
+            <ProductItem key={product.id} product={product} onDelete={() => onDeleteProduct(product.id)} />
           ))}
         </ul>
       ) : (
