@@ -1,4 +1,5 @@
 .order-item {
+  position: relative; /* від нього позиціюється стрілка активного рядка */
   display: grid;
   /* Гнучкі колонки: назва займає 3 частини вільного місця, дата й сума по одній. */
   grid-template-columns: minmax(0, 3fr) 44px 115px minmax(130px, 1fr) minmax(150px, 1fr) 20px;
@@ -13,11 +14,39 @@
   background: #fff;
   border: 1px solid var(--color-border);
   border-radius: 3px;
+  cursor: pointer;
   transition: box-shadow 0.2s;
 }
 
-.order-item:hover {
+.order-item:hover,
+.order-item:focus-visible {
+  outline: none;
   box-shadow: var(--shadow-card);
+}
+
+/* Стиснутий рядок, коли праворуч відкрита панель: іконка, кількість, дата. */
+.order-item--compact {
+  grid-template-columns: 44px 90px minmax(0, 1fr);
+  padding-right: 64px;
+}
+
+.order-item--compact .order-item__date {
+  align-items: flex-start;
+}
+
+/* Сірий блок зі стрілкою праворуч у відкритого приходу */
+.order-item__arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  font-size: 16px;
+  color: #fff;
+  background: var(--color-border);
 }
 
 .order-item__title {
@@ -65,6 +94,7 @@
 
 .order-item__date {
   align-items: center;
+  white-space: nowrap; /* дата завжди в один рядок */
   justify-self: start; /* блок займає лише ширину свого вмісту */
 }
 
