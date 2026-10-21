@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import logo from '../../assets/logo.svg'
 import { MONTHS, pad } from '../../utils/format'
 import './TopMenu.css'
 
@@ -16,12 +17,22 @@ function TopMenu() {
 
   return (
     <header className="top-menu">
-      <div className="top-menu__logo">INVENTORY</div>
+      <div className="top-menu__logo">
+        <img className="top-menu__logo-icon" src={logo} alt="" />
+        <span className="top-menu__logo-text">Inventory</span>
+      </div>
+
+      {/* Поки лише верстка. Пошук підключимо на етапі фільтрів. */}
+      <input className="top-menu__search form-control" type="search" placeholder="Поиск" />
+
       <div className="top-menu__clock">
         <div className="top-menu__weekday">{WEEKDAYS[now.getDay()]}</div>
         <div className="top-menu__date">
           {pad(now.getDate())} {MONTHS[now.getMonth()]}, {now.getFullYear()}
-          <span className="top-menu__time">{pad(now.getHours())}:{pad(now.getMinutes())}</span>
+          <span className="top-menu__time">
+            <i className="top-menu__time-icon bi bi-clock" />
+            {pad(now.getHours())}:{pad(now.getMinutes())}:{pad(now.getSeconds())}
+          </span>
         </div>
       </div>
       {/* Лічильник активних вкладок (Socket.io) додамо на етапі WebSocket */}

@@ -1,10 +1,36 @@
+/* Кольори й розміри з макета в одному місці (CSS-змінні). */
+:root {
+  --color-green: #8bc34a;
+  --color-green-dark: #7cb342;
+  --color-text-dark: #2c3c44;
+  --color-text: #546e7a;
+  --color-text-muted: #90a4ae;
+  --color-border: #cfd8dc;
+  --color-input-bg: #f0f3f5;
+  --color-input-border: #dee3e7;
+  --shadow-card: 0 6px 24px rgba(44, 60, 68, 0.12);
+
+  --top-menu-height: 73px;
+  --sidebar-width: 196px;
+
+  /* Перевизначаємо змінні Bootstrap: шрифт і колір тексту для всього сайту. */
+  --bs-body-font-family: 'Montserrat', sans-serif;
+  --bs-body-color: var(--color-text);
+}
+
 body {
-  margin: 0;
-  background: #f0f3f6;
-  color: #3d4a54;
+  background: #fff;
 }
 
 .app__content {
-  margin-left: 196px;
-  padding: 120px 100px 40px 126px;
+  margin-left: var(--sidebar-width);
+  padding: calc(var(--top-menu-height) + 64px) 160px 40px 126px;
+}
+
+/* На менших екранах зменшуємо відступи, щоб список вміщався. */
+@media (max-width: 1399px) {
+  .app__content {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
 }

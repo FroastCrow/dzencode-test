@@ -1,0 +1,91 @@
+.order-item {
+  display: grid;
+  /* Гнучкі колонки: назва займає 3 частини вільного місця, дата й сума по одній. */
+  grid-template-columns: minmax(0, 3fr) 44px 115px minmax(130px, 1fr) minmax(150px, 1fr) 20px;
+  align-items: center;
+  column-gap: 20px;
+  min-height: 72px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 10px;
+  padding-right: 24px;
+  padding-left: 35px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  transition: box-shadow 0.2s;
+}
+
+.order-item:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.order-item__title {
+  padding-right: 40px;
+  line-height: 1.6;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 6px;
+}
+
+.order-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+}
+
+.order-item__count,
+.order-item__date,
+.order-item__sum {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.order-item__count-number {
+  font-size: 22px;
+}
+
+.order-item__label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.order-item__date,
+.order-item__sum {
+  font-size: 15px;
+}
+
+.order-item__date {
+  align-items: center;
+  justify-self: start; /* блок займає лише ширину свого вмісту */
+}
+
+.order-item__small {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.order-item__currency {
+  font-size: 11px;
+}
+
+.order-item__delete {
+  padding: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.order-item__delete:hover {
+  color: var(--color-text);
+}

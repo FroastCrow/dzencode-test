@@ -16,6 +16,12 @@ export const formatDateShort = (value: string) => {
   return `${pad(d.getDate())} / ${pad(d.getMonth() + 1)} / ${d.getFullYear()}`
 }
 
+// Номер місяця з 12, як на макеті над датою: 04 / 12
+export const formatMonthOfYear = (value: string) => {
+  const d = toDate(value)
+  return `${pad(d.getMonth() + 1)} / 12`
+}
+
 // Другий формат дати: 06 / Апр / 2017
 export const formatDateLong = (value: string) => {
   const d = toDate(value)
@@ -36,3 +42,15 @@ export const formatMoney = (value: number) =>
   value
     .toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     .replace(',', '.')
+
+// Правильна форма слова після числа (російська мова інтерфейсу):
+// 1 продукт, 2-4 продукта, 5-20 продуктов, 21 продукт, 22 продукта, 11-14 продуктов.
+export const pluralize = (count: number, forms: [string, string, string]) => {
+  const lastDigit = count % 10
+  const lastTwoDigits = count % 100
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return forms[2]
+  if (lastDigit === 1) return forms[0]
+  if (lastDigit >= 2 && lastDigit <= 4) return forms[1]
+  return forms[2]
+}
