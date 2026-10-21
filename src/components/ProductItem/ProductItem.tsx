@@ -4,14 +4,16 @@ import './ProductItem.css'
 
 interface ProductItemProps {
   product: Product
+  isCompact?: boolean // у попапі показуємо лише точку, іконку, назву й номер
+  onDelete?: () => void // необов'язковий: у попапі кнопки видалення немає
 }
 
-// Один рядок продукту в панелі приходу.
-function ProductItem({ product }: ProductItemProps) {
+// Один рядок продукту: у панелі приходу і (стиснутий) у попапі видалення.
+function ProductItem({ product, isCompact = false, onDelete }: ProductItemProps) {
   const icon = TYPE_ICONS[product.type] || DEFAULT_TYPE_ICON
 
   return (
-    <li className="product-item">
+    <li className={`product-item ${isCompact ? 'product-item--compact' : ''}`}>
       {/* Модифікатор залежить від статусу: product-item__dot--free або --repair */}
       <span className={`product-item__dot product-item__dot--${product.status}`} />
 
@@ -24,14 +26,17 @@ function ProductItem({ product }: ProductItemProps) {
         <span className="product-item__serial">SN-{product.serialNumber}</span>
       </span>
 
-      <span className={`product-item__status product-item__status--${product.status}`}>
-        {STATUS_LABELS[product.status]}
-      </span>
+      {!isCompact && (
+        <span className={`product-item__status product-item__status--${product.status}`}>
+          {STATUS_LABELS[product.status]}
+        </span>
+      )}
 
-      {/* Видалення продукту вирішимо на етапі 3 разом із попапом */}
-      <button className="product-item__delete" type="button" aria-label="Удалить продукт">
-        <i className="bi bi-trash3-fill" />
-      </button>
+      {!isCompact && (
+        <button className="product-item__delete" type="button" aria-label="Удалить продукт" onClick={onDelete}>
+          <i className="bi bi-trash3-fill" />
+        </button>
+      )}
     </li>
   )
 }

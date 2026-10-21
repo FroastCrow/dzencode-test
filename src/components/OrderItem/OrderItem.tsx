@@ -15,10 +15,11 @@ interface OrderItemProps {
   isCompact: boolean // true, коли праворуч відкрита панель приходу
   isActive: boolean // true для приходу, який зараз відкритий
   onSelect: () => void // що зробити при кліку на рядок (вирішує батьківський компонент)
+  onDelete: () => void // що зробити при кліку на кошик
 }
 
 // Один рядок у списку приходів.
-function OrderItem({ order, products, isCompact, isActive, onSelect }: OrderItemProps) {
+function OrderItem({ order, products, isCompact, isActive, onSelect, onDelete }: OrderItemProps) {
   const count = products.length
   const totalUsd = sumByCurrency(products, 'USD')
   const totalUah = sumByCurrency(products, 'UAH')
@@ -72,13 +73,15 @@ function OrderItem({ order, products, isCompact, isActive, onSelect }: OrderItem
       )}
 
       {!isCompact && (
-        // Видалення з попапом підключимо на етапі 3.
-        // stopPropagation: клік по кошику не повинен «спливати» до рядка й відкривати панель.
         <button
           className="order-item__delete"
           type="button"
           aria-label="Удалить приход"
-          onClick={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            // stopPropagation: клік по кошику не повинен «спливати» до рядка й відкривати панель.
+            event.stopPropagation()
+            onDelete()
+          }}
         >
           <i className="bi bi-trash3-fill" />
         </button>

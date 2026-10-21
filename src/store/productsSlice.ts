@@ -14,6 +14,10 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
+    // Видалити один продукт за його id.
+    removeProduct(state, action: PayloadAction<number>) {
+      state.items = state.items.filter((product) => product.id !== action.payload)
+    },
     // Коли видаляємо прихід, видаляємо і його продукти.
     removeProductsByOrder(state, action: PayloadAction<number>) {
       state.items = state.items.filter((product) => product.order !== action.payload)
@@ -21,5 +25,5 @@ const productsSlice = createSlice({
   },
 })
 
-export const { removeProductsByOrder } = productsSlice.actions
+export const { removeProduct, removeProductsByOrder } = productsSlice.actions
 export default productsSlice.reducer

@@ -46,7 +46,7 @@ npm run lint      # проверка кода
 - [x] Orders: открытие прихода рядом со списком (клик или клавиатура), закрытие, анимация появления
 - [x] Статус продукта (Свободен / В ремонте) и иконка по типу
 - [ ] Добавление продукта в приход
-- [ ] Orders: удаление прихода с попапом подтверждения
+- [x] Удаление прихода (вместе с его продуктами) и продукта через попап подтверждения (закрытие по Escape и клику по фону)
 - [ ] Products: полный список полей и фильтр по типу
 - [ ] Поиск в TopMenu
 - [ ] Счётчик активных вкладок (Socket.io)
@@ -58,7 +58,7 @@ npm run lint      # проверка кода
 
 ```
 src/
-  components/   переиспользуемые компоненты (Navigation, TopMenu, PageTransition, OrderItem, OrderDetails, ProductItem)
+  components/   переиспользуемые компоненты (Navigation, TopMenu, PageTransition, OrderItem, OrderDetails, ProductItem, ConfirmDialog)
   pages/        страницы (OrdersPage, ProductsPage)
   store/        Redux: store и slices
   data/         тестовые данные

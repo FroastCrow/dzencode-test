@@ -50,3 +50,9 @@
     grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
   }
 }
+
+.orders__dialog-text {
+  margin: 0;
+  padding: 20px 36px;
+  color: var(--color-text);
+}

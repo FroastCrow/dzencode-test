@@ -76,8 +76,26 @@
   color: var(--color-text);
 }
 
+/* Стиснутий рядок у попапі: без статусу й кошика, без тіні при наведенні. */
+.product-item--compact {
+  grid-template-columns: 8px 52px minmax(0, 1fr);
+  padding-right: 36px;
+}
+
+.product-item--compact:hover {
+  box-shadow: none;
+}
+
+.product-item:first-child {
+  border-top: none;
+}
+
 /* На вужчих екранах менше відступів, щоб назві продукту лишалось місце. */
 @media (max-width: 1399px) {
+  .product-item--compact {
+    grid-template-columns: 8px 40px minmax(0, 1fr);
+  }
+
   .product-item {
     grid-template-columns: 8px 40px minmax(0, 1fr) 90px 20px;
     column-gap: 16px;

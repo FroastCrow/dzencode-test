@@ -67,6 +67,7 @@
 
 .order-details__list {
   margin: 0;
+  border-top: 1px solid var(--color-bg);
 }
 
 .order-details__empty {
