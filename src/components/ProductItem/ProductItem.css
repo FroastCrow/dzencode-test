@@ -1,0 +1,87 @@
+.product-item {
+  display: grid;
+  grid-template-columns: 8px 52px minmax(0, 1fr) 110px 20px;
+  align-items: center;
+  column-gap: 30px;
+  padding: 12px 36px 12px 44px;
+  border-top: 1px solid var(--color-bg);
+  transition: box-shadow 0.2s;
+}
+
+.product-item:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.product-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.product-item__dot--free {
+  background: var(--color-lime);
+}
+
+.product-item__dot--repair {
+  background: var(--color-text-dark);
+}
+
+.product-item__photo {
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.product-item__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-item__title {
+  color: var(--color-text-dark);
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 4px;
+}
+
+.product-item__serial {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.product-item__status {
+  font-size: 14px;
+}
+
+.product-item__status--free {
+  color: var(--color-lime);
+}
+
+.product-item__status--repair {
+  color: var(--color-text-dark);
+}
+
+.product-item__delete {
+  padding: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.product-item__delete:hover {
+  color: var(--color-text);
+}
+
+/* На вужчих екранах менше відступів, щоб назві продукту лишалось місце. */
+@media (max-width: 1399px) {
+  .product-item {
+    grid-template-columns: 8px 40px minmax(0, 1fr) 90px 20px;
+    column-gap: 16px;
+    padding-right: 20px;
+    padding-left: 24px;
+  }
+}

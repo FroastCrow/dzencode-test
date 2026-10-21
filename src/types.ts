@@ -13,10 +13,15 @@ export interface Order {
   description: string
 }
 
+// Статус продукту з макета: «Свободен» або «В ремонте».
+// У файлі app.js цього поля немає, додали його, бо воно є на скріншотах.
+export type ProductStatus = 'free' | 'repair'
+
 export interface Product {
   id: number
   serialNumber: number
   isNew: 0 | 1
+  status: ProductStatus
   photo: string
   title: string
   type: string

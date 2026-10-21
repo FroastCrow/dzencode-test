@@ -1,0 +1,77 @@
+.order-details {
+  position: relative; /* від нього позиціюється кнопка закриття */
+  padding-top: 30px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  /* Анімація появи. Запускається щоразу, коли панель з'являється в DOM. */
+  animation: order-details-in 0.3s ease-out;
+}
+
+@keyframes order-details-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.order-details__close {
+  position: absolute;
+  top: -21px;
+  right: -21px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(44, 60, 68, 0.2);
+  transition: color 0.2s;
+}
+
+.order-details__close:hover {
+  color: var(--color-text-dark);
+}
+
+.order-details__title {
+  margin: 0 36px 22px;
+  color: var(--color-text-dark);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.order-details__add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 36px 14px;
+  padding: 0;
+  color: var(--color-green);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+}
+
+.order-details__add-icon {
+  font-size: 19px;
+}
+
+.order-details__list {
+  margin: 0;
+}
+
+.order-details__empty {
+  margin: 0;
+  padding: 24px 36px 30px;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-bg);
+}
