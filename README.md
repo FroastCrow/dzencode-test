@@ -47,8 +47,8 @@ npm run lint      # проверка кода
 - [x] Статус продукта (Свободен / В ремонте) и иконка по типу
 - [ ] Добавление продукта в приход
 - [x] Удаление прихода (вместе с его продуктами) и продукта через попап подтверждения (закрытие по Escape и клику по фону)
-- [ ] Products: полный список полей и фильтр по типу
-- [ ] Поиск в TopMenu
+- [x] Products: полный список полей (статус, гарантия, состояние, цена в USD и UAH, тип, приход, дата), фильтр по типу, удаление продукта, горизонтальная прокрутка на узких экранах
+- [x] Поиск в TopMenu: фильтр приходов и продуктов по названию (без учёта регистра)
 - [ ] Счётчик активных вкладок (Socket.io)
 - [ ] Бэкенд + база данных MySQL, схема БД для MySQL Workbench
 - [ ] Docker
@@ -58,12 +58,12 @@ npm run lint      # проверка кода
 
 ```
 src/
-  components/   переиспользуемые компоненты (Navigation, TopMenu, PageTransition, OrderItem, OrderDetails, ProductItem, ConfirmDialog)
+  components/   переиспользуемые компоненты (Navigation, TopMenu, PageTransition, OrderItem, OrderDetails, ProductItem, ProductRow, ConfirmDialog)
   pages/        страницы (OrdersPage, ProductsPage)
-  store/        Redux: store и slices
+  store/        Redux: store и slices (orders, products, search)
   data/         тестовые данные
-  utils/        вспомогательные функции (форматирование дат и сумм)
-  constants.ts  подписи статусов и иконки типов продуктов
+  utils/        вспомогательные функции (форматирование дат и сумм, поиск)
+  constants.ts  подписи статусов и типов, иконки типов продуктов
   styles/       глобальные стили и CSS-переменные
   assets/       изображения (логотип)
 ```
