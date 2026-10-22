@@ -41,6 +41,12 @@
   border-radius: 3px;
 }
 
+.top-menu__search:focus {
+  /* Рамка фокуса в кольорах макета замість синьої з Bootstrap */
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.25);
+}
+
 .top-menu__search::placeholder {
   color: var(--color-text-dark);
 }

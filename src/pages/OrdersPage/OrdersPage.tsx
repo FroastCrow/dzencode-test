@@ -6,12 +6,14 @@ import ProductItem from '../../components/ProductItem/ProductItem'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { removeOrder } from '../../store/ordersSlice'
 import { removeProduct, removeProductsByOrder } from '../../store/productsSlice'
+import { matchesSearch } from '../../utils/search'
 import './OrdersPage.css'
 
 function OrdersPage() {
   // useAppSelector (типізований useSelector) дістає дані з глобального стану Redux.
   const orders = useAppSelector((state) => state.orders.items)
   const products = useAppSelector((state) => state.products.items)
+  const searchQuery = useAppSelector((state) => state.search.query)
   // dispatch відправляє дії (actions) у Redux, щоб змінити стан.
   const dispatch = useAppDispatch()
 
@@ -23,9 +25,12 @@ function OrdersPage() {
   const [orderIdToDelete, setOrderIdToDelete] = useState<number | null>(null)
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
 
-  // Сам об'єкт приходу не зберігаємо, а знаходимо за id. Якщо прихід видалять,
-  // find поверне undefined і панель закриється сама.
-  const selectedOrder = orders.find((order) => order.id === selectedOrderId)
+  // Приходи, назва яких підходить під пошук із верхнього меню.
+  const visibleOrders = orders.filter((order) => matchesSearch(order.title, searchQuery))
+
+  // Сам об'єкт приходу не зберігаємо, а знаходимо за id. Якщо прихід видалять
+  // або пошук його сховає, find поверне undefined і панель закриється сама.
+  const selectedOrder = visibleOrders.find((order) => order.id === selectedOrderId)
   const isDetailsOpen = selectedOrder !== undefined
 
   const orderToDelete = orders.find((order) => order.id === orderIdToDelete)
@@ -57,12 +62,17 @@ function OrdersPage() {
         <button className="orders__add" type="button" aria-label="Добавить приход">
           <i className="bi bi-plus" />
         </button>
-        <h1 className="orders__title">Приходы / {orders.length}</h1>
+        <h1 className="orders__title">Приходы / {visibleOrders.length}</h1>
       </header>
+
+      {/* Порожній стан: пошук нічого не знайшов або приходів немає взагалі */}
+      {visibleOrders.length === 0 && (
+        <p className="orders__empty">{orders.length === 0 ? 'Приходов пока нет' : 'Ничего не найдено'}</p>
+      )}
 
       <div className={`orders__content ${isDetailsOpen ? 'orders__content--with-details' : ''}`}>
         <ul className="orders__list list-unstyled">
-          {orders.map((order) => (
+          {visibleOrders.map((order) => (
             <OrderItem
               key={order.id}
               order={order}

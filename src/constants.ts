@@ -6,6 +6,13 @@ export const STATUS_LABELS: Record<ProductStatus, string> = {
   repair: 'В ремонте',
 }
 
+// Підписи типів продукту. У даних тип англійською (як у app.js), в інтерфейсі показуємо російською.
+export const TYPE_LABELS: Record<string, string> = {
+  Monitors: 'Мониторы',
+  Keyboards: 'Клавиатуры',
+  Laptops: 'Ноутбуки',
+}
+
 // Фото продуктів у нас немає, тому показуємо іконку за типом продукту.
 export const TYPE_ICONS: Record<string, string> = {
   Monitors: 'bi-display',
