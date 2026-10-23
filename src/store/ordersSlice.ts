@@ -1,26 +1,52 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { api } from '../api'
 import type { Order } from '../types'
-import { orders } from '../data/mockData'
 
-// Форма цієї частини стану.
+// Асинхронні дії (thunk): спершу запит до сервера, потім результат потрапляє в reducer.
+// createAsyncThunk сам відправляє три дії: pending (запит пішов), fulfilled (успіх), rejected (помилка).
+export const fetchOrders = createAsyncThunk('orders/fetch', async () => {
+  // <Order[]>: підказка TypeScript, що сервер поверне масив приходів (як useState<...>).
+  const response = await api.get<Order[]>('/orders')
+  return response.data // це значення буде в action.payload у fulfilled
+})
+
+export const deleteOrder = createAsyncThunk('orders/delete', async (id: number) => {
+  await api.delete(`/orders/${id}`)
+  return id
+})
+
 interface OrdersState {
   items: Order[]
+  status: 'loading' | 'succeeded' | 'failed' // стан завантаження списку з сервера
 }
 
 const initialState: OrdersState = {
-  items: orders,
+  items: [],
+  status: 'loading', // дані завантажуємо одразу при старті застосунку
 }
 
-// Slice = шматок глобального стану + функції (reducers), які його змінюють.
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {
-    removeOrder(state, action: PayloadAction<number>) {
-      state.items = state.items.filter((order) => order.id !== action.payload)
-    },
+  reducers: {},
+  // extraReducers: реакція на дії, які створені не в цьому slice (наші thunk).
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrders.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.items = action.payload
+      })
+      .addCase(fetchOrders.rejected, (state) => {
+        state.status = 'failed'
+      })
+      // Прибираємо прихід зі стану лише після того, як сервер підтвердив видалення.
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.items = state.items.filter((order) => order.id !== action.payload)
+      })
   },
 })
 
-export const { removeOrder } = ordersSlice.actions
 export default ordersSlice.reducer
