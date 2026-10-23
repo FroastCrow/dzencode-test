@@ -3,7 +3,7 @@ import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductRow from '../../components/ProductRow/ProductRow'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { removeProduct } from '../../store/productsSlice'
+import { deleteProduct } from '../../store/productsSlice'
 import { getTypeLabel } from '../../utils/format'
 import { matchesSearch } from '../../utils/search'
 import './ProductsPage.css'
@@ -36,11 +36,16 @@ function ProductsPage() {
   // Назва приходу за його id. Якщо приходу немає, показуємо прочерк.
   const getOrderTitle = (orderId: number) => orders.find((order) => order.id === orderId)?.title ?? '—'
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (!productToDelete) return
 
-    dispatch(removeProduct(productToDelete.id))
-    setProductIdToDelete(null)
+    try {
+      // Чекаємо відповіді сервера; якщо запит не вдався, unwrap() кидає помилку.
+      await dispatch(deleteProduct(productToDelete.id)).unwrap()
+      setProductIdToDelete(null)
+    } catch {
+      alert('Не удалось удалить продукт. Попробуйте ещё раз.')
+    }
   }
 
   return (

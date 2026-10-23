@@ -1,0 +1,12 @@
+.data-loader {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.data-loader__spinner {
+  color: var(--color-green);
+}
+
+.data-loader--error {
+  color: var(--color-danger);
+}

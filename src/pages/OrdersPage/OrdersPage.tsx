@@ -4,8 +4,8 @@ import OrderDetails from '../../components/OrderDetails/OrderDetails'
 import OrderItem from '../../components/OrderItem/OrderItem'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { removeOrder } from '../../store/ordersSlice'
-import { removeProduct, removeProductsByOrder } from '../../store/productsSlice'
+import { deleteOrder } from '../../store/ordersSlice'
+import { deleteProduct } from '../../store/productsSlice'
 import { matchesSearch } from '../../utils/search'
 import './OrdersPage.css'
 
@@ -39,20 +39,29 @@ function OrdersPage() {
   const getOrderProducts = (orderId: number) =>
     products.filter((product) => product.order === orderId)
 
-  const handleConfirmDeleteOrder = () => {
+  // async: усередині чекаємо (await) на відповідь сервера.
+  const handleConfirmDeleteOrder = async () => {
     if (!orderToDelete) return
 
-    // Спершу продукти цього приходу, потім сам прихід.
-    dispatch(removeProductsByOrder(orderToDelete.id))
-    dispatch(removeOrder(orderToDelete.id))
-    setOrderIdToDelete(null)
+    try {
+      // unwrap(): якщо запит не вдався, кидає помилку, і виконання переходить у catch.
+      // Продукти приходу база видаляє сама, а з Redux їх прибирає productsSlice.
+      await dispatch(deleteOrder(orderToDelete.id)).unwrap()
+      setOrderIdToDelete(null)
+    } catch {
+      alert('Не удалось удалить приход. Попробуйте ещё раз.')
+    }
   }
 
-  const handleConfirmDeleteProduct = () => {
+  const handleConfirmDeleteProduct = async () => {
     if (!productToDelete) return
 
-    dispatch(removeProduct(productToDelete.id))
-    setProductIdToDelete(null)
+    try {
+      await dispatch(deleteProduct(productToDelete.id)).unwrap()
+      setProductIdToDelete(null)
+    } catch {
+      alert('Не удалось удалить продукт. Попробуйте ещё раз.')
+    }
   }
 
   return (
