@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import logo from '../../assets/logo.svg'
+import { useActiveTabs } from '../../hooks/useActiveTabs'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { setSearchQuery } from '../../store/searchSlice'
 import { MONTHS, pad } from '../../utils/format'
@@ -13,6 +14,9 @@ function TopMenu() {
   // Текст пошуку живе в Redux: сторінки читають його й фільтрують свої списки.
   const searchQuery = useAppSelector((state) => state.search.query)
   const dispatch = useAppDispatch()
+
+  // Кількість відкритих вкладок застосунку (оновлюється в реальному часі через Socket.io).
+  const activeTabs = useActiveTabs()
 
   // Раз на секунду оновлюємо стан -> React перемальовує годинник.
   // Функція, яку повертає useEffect, прибирає таймер, коли компонент зникає.
@@ -49,7 +53,15 @@ function TopMenu() {
           </span>
         </div>
       </div>
-      {/* Лічильник активних вкладок (Socket.io) додамо на етапі WebSocket */}
+
+      {/* Лічильник активних вкладок поруч із датою. Поки з'єднання немає, показуємо прочерк. */}
+      <div className="top-menu__tabs" title="Сколько вкладок с приложением сейчас открыто">
+        <div className="top-menu__tabs-label">Активные сессии</div>
+        <div className="top-menu__tabs-count">
+          <i className="top-menu__time-icon bi bi-people-fill" />
+          {activeTabs ?? '—'}
+        </div>
+      </div>
     </header>
   )
 }

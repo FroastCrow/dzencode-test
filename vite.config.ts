@@ -9,6 +9,8 @@ export default defineConfig({
     // Для браузера фронтенд і API на одній адресі, тому налаштовувати CORS не треба.
     proxy: {
       '/api': 'http://localhost:3000',
+      // Socket.io (лічильник вкладок): ws: true пересилає й WebSocket-з'єднання, а не лише звичайні запити.
+      '/socket.io': { target: 'http://localhost:3000', ws: true },
     },
   },
 })

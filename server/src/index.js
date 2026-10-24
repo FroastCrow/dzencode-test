@@ -1,6 +1,8 @@
+import { createServer } from 'node:http'
 import express from 'express'
 import ordersRouter from './routes/orders.js'
 import productsRouter from './routes/products.js'
+import { setupSocket } from './socket.js'
 
 const app = express()
 const PORT = process.env.PORT ?? 3000
@@ -17,6 +19,10 @@ app.use((error, req, res, _next) => {
   res.status(500).json({ message: 'Ошибка сервера' })
 })
 
-app.listen(PORT, () => {
+// Створюємо HTTP-сервер вручну, щоб на ньому працювали і Express (запити /api), і Socket.io (/socket.io).
+const httpServer = createServer(app)
+setupSocket(httpServer)
+
+httpServer.listen(PORT, () => {
   console.log(`API: http://localhost:${PORT}/api/orders`)
 })

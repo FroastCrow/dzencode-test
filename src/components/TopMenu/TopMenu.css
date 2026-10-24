@@ -71,9 +71,28 @@
   color: var(--color-green);
 }
 
+/* Лічильник активних вкладок: такий самий двоярусний блок, як годинник, з лінією-роздільником зліва. */
+.top-menu__tabs {
+  margin-left: 30px;
+  padding-left: 30px;
+  color: var(--color-text-dark);
+  font-size: 13px;
+  line-height: 1.8;
+  border-left: 1px solid var(--color-border);
+}
+
+.top-menu__tabs-label {
+  font-size: 14px;
+}
+
 @media (max-width: 1399px) {
   .top-menu {
     padding-right: 40px;
+  }
+
+  .top-menu__tabs {
+    margin-left: 20px;
+    padding-left: 20px;
   }
 
   .top-menu__search {
