@@ -14,12 +14,13 @@ SPA-приложение для учёта приходов (Orders) и прод
 - react-transition-group (анимации при переходах)
 - Bootstrap 5 + Bootstrap Icons, CSS по методологии БЭМ, CSS-переменные
 - Шрифт Montserrat (@fontsource, без внешних запросов)
-- Axios (REST), Socket.io (счётчик активных вкладок)
+- Axios (REST), socket.io-client (счётчик активных вкладок)
 
 **Бэкенд**
 
 - Node.js + Express 5 (REST API, JavaScript)
 - MySQL 8.4 в Docker, драйвер mysql2
+- Socket.io (WebSocket): счётчик активных вкладок в реальном времени
 
 ## Установка и запуск
 
@@ -47,7 +48,7 @@ npm install
 npm run dev
 ```
 
-API будет доступно на http://localhost:3000/api/orders
+API будет доступно на http://localhost:3000/api/orders (там же работает Socket.io)
 
 **3. Фронтенд** (в ещё одном окне терминала, из корня проекта):
 
@@ -100,7 +101,7 @@ docker compose up -d          # (после down -v) создать базу з�
 - [x] Поиск в TopMenu: фильтр приходов и продуктов по названию (без учёта регистра)
 - [x] Бэкенд: Express + MySQL, REST API (загрузка и удаление), схема БД для MySQL Workbench
 - [x] Загрузка данных через Axios, индикатор загрузки и сообщение об ошибке
-- [ ] Счётчик активных вкладок (Socket.io)
+- [x] Счётчик активных вкладок в TopMenu (Socket.io, обновляется в реальном времени при открытии и закрытии вкладок)
 - [ ] Docker для всего приложения
 - [ ] Деплой
 
@@ -112,9 +113,11 @@ database/            схема БД, тестовые данные, модел�
 server/              бэкенд: Express + mysql2
   src/index.js       запуск сервера, подключение маршрутов
   src/db.js          подключение к MySQL (пул соединений)
+  src/socket.js      Socket.io: счётчик активных вкладок
   src/routes/        маршруты API (orders, products)
 src/                 фронтенд
   api.ts             экземпляр Axios для запросов к API
+  hooks/             собственные хуки (useActiveTabs: подключение к Socket.io)
   components/        компоненты (Navigation, TopMenu, PageTransition, DataLoader, OrderItem, OrderDetails, ProductItem, ProductRow, ConfirmDialog)
   pages/             страницы (OrdersPage, ProductsPage)
   store/             Redux: store и slices (orders, products, search)
