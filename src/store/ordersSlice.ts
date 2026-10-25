@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '../api'
-import type { Order } from '../types'
+import type { NewOrder, Order } from '../types'
 
 // Асинхронні дії (thunk): спершу запит до сервера, потім результат потрапляє в reducer.
 // createAsyncThunk сам відправляє три дії: pending (запит пішов), fulfilled (успіх), rejected (помилка).
@@ -8,6 +8,12 @@ export const fetchOrders = createAsyncThunk('orders/fetch', async () => {
   // <Order[]>: підказка TypeScript, що сервер поверне масив приходів (як useState<...>).
   const response = await api.get<Order[]>('/orders')
   return response.data // це значення буде в action.payload у fulfilled
+})
+
+// Створити прихід: POST /api/orders. Сервер повертає новий прихід з id і датою.
+export const createOrder = createAsyncThunk('orders/create', async (newOrder: NewOrder) => {
+  const response = await api.post<Order>('/orders', newOrder)
+  return response.data
 })
 
 export const deleteOrder = createAsyncThunk('orders/delete', async (id: number) => {
@@ -41,6 +47,10 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.rejected, (state) => {
         state.status = 'failed'
+      })
+      // Новий прихід додаємо в кінець списку (список відсортований за id).
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.items.push(action.payload)
       })
       // Прибираємо прихід зі стану лише після того, як сервер підтвердив видалення.
       .addCase(deleteOrder.fulfilled, (state, action) => {

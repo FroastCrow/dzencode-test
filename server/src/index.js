@@ -7,6 +7,9 @@ import { setupSocket } from './socket.js'
 const app = express()
 const PORT = process.env.PORT ?? 3000
 
+// express.json(): розбирає тіло запиту з JSON (форми надсилають дані саме так) і кладе результат у req.body.
+app.use(express.json())
+
 // Усі адреси API починаються з /api: так їх легко відрізнити від сторінок фронтенду.
 app.use('/api/orders', ordersRouter)
 app.use('/api/products', productsRouter)
@@ -15,6 +18,12 @@ app.use('/api/products', productsRouter)
 // (наприклад, база недоступна). Express розпізнає його за чотирма параметрами,
 // тому next потрібен, хоч і не використовується (_ на початку: «не використовується навмисно»).
 app.use((error, req, res, _next) => {
+  // express.json() позначає зламаний JSON у тілі запиту статусом 400: це помилка клієнта, а не сервера.
+  if (error.status === 400) {
+    res.status(400).json({ message: 'Неверный формат запроса' })
+    return
+  }
+
   console.error(error)
   res.status(500).json({ message: 'Ошибка сервера' })
 })

@@ -1,0 +1,161 @@
+/* Блок назвали app-modal, бо клас .modal уже є в Bootstrap (і він за замовчуванням прихований). */
+
+/* Затемнення лише області контенту, як у попапі видалення. */
+.app-modal {
+  position: fixed;
+  top: var(--top-menu-height);
+  right: 0;
+  bottom: 0;
+  left: var(--sidebar-width);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(84, 110, 122, 0.6);
+  animation: app-modal-fade 0.2s ease-out;
+}
+
+.app-modal__window {
+  position: relative; /* від нього позиціюється кнопка закриття */
+  width: 100%;
+  max-width: 790px;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(44, 60, 68, 0.3);
+  animation: app-modal-in 0.25s ease-out;
+}
+
+@keyframes app-modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes app-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-modal__close {
+  position: absolute;
+  top: -21px;
+  right: -21px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(44, 60, 68, 0.2);
+}
+
+.app-modal__close:hover {
+  color: var(--color-text-dark);
+}
+
+.app-modal__title {
+  margin: 0;
+  padding: 28px 36px 22px;
+  color: var(--color-text-dark);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Поля форми. Якщо форма не вміщається у вікно, прокручуються лише поля, кнопки завжди видно. */
+.app-modal__body {
+  max-height: calc(100vh - var(--top-menu-height) - 260px);
+  padding: 22px 36px 26px;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-bg);
+}
+
+.app-modal__body .form-label {
+  margin-bottom: 4px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.app-modal__body .form-control:focus,
+.app-modal__body .form-select:focus {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.25);
+}
+
+/* Нижня зелена смуга з кнопками, як у попапі видалення. */
+.app-modal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  padding: 22px 36px;
+  background: var(--color-green);
+}
+
+.app-modal__cancel,
+.app-modal__submit {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.app-modal__cancel {
+  padding: 8px 4px;
+  color: #fff;
+  background: none;
+}
+
+.app-modal__submit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 34px;
+  color: var(--color-green-dark);
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 4px 14px rgba(44, 60, 68, 0.25);
+  transition: box-shadow 0.2s;
+}
+
+.app-modal__submit:hover {
+  box-shadow: 0 6px 20px rgba(44, 60, 68, 0.35);
+}
+
+.app-modal__submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.app-modal__cancel:focus-visible,
+.app-modal__submit:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Помилка від сервера (наприклад, сервер недоступний) над кнопками. */
+.app-modal__error {
+  margin: 16px 0 0;
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+@media (max-width: 1399px) {
+  .app-modal {
+    padding: 24px;
+  }
+}

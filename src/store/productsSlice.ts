@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '../api'
-import type { Product } from '../types'
+import type { NewProduct, Product } from '../types'
 import { deleteOrder } from './ordersSlice'
 
 export const fetchProducts = createAsyncThunk('products/fetch', async () => {
   const response = await api.get<Product[]>('/products')
+  return response.data
+})
+
+// Створити продукт: POST /api/products. Сервер повертає продукт у форматі app.js (з масивом price).
+export const createProduct = createAsyncThunk('products/create', async (newProduct: NewProduct) => {
+  const response = await api.post<Product>('/products', newProduct)
   return response.data
 })
 
@@ -38,6 +44,9 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state) => {
         state.status = 'failed'
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.items.push(action.payload)
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.items = state.items.filter((product) => product.id !== action.payload)

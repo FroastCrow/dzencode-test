@@ -31,3 +31,25 @@ export interface Product {
   order: number // id приходу, до якого належить продукт
   date: string
 }
+
+// Дані для створення приходу (з форми). id і дату призначає сервер.
+export interface NewOrder {
+  title: string
+  description: string
+}
+
+// Дані для створення продукту (з форми). Плоский об'єкт: так простіше перевіряти на сервері,
+// а в масив price і об'єкт guarantee дані збирає сервер.
+export interface NewProduct {
+  title: string
+  serialNumber: number
+  type: string
+  status: ProductStatus
+  isNew: 0 | 1
+  specification: string
+  guaranteeStart: string // '2026-10-24'
+  guaranteeEnd: string
+  priceUsd: number
+  priceUah: number
+  order: number // id приходу
+}
