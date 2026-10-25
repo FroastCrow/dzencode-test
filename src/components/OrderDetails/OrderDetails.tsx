@@ -7,10 +7,11 @@ interface OrderDetailsProps {
   products: Product[]
   onClose: () => void // функцію закриття передає батьківський компонент
   onDeleteProduct: (productId: number) => void // що робити при кліку на кошик продукту
+  onAddProduct: () => void // що робити при кліку на «Добавить продукт»
 }
 
 // Панель приходу, яка відкривається праворуч від списку.
-function OrderDetails({ order, products, onClose, onDeleteProduct }: OrderDetailsProps) {
+function OrderDetails({ order, products, onClose, onDeleteProduct, onAddProduct }: OrderDetailsProps) {
   return (
     <section className="order-details">
       <button className="order-details__close" type="button" aria-label="Закрыть" onClick={onClose}>
@@ -19,8 +20,7 @@ function OrderDetails({ order, products, onClose, onDeleteProduct }: OrderDetail
 
       <h2 className="order-details__title">{order.title}</h2>
 
-      {/* Форму додавання продукту зробимо на етапі валідації форм */}
-      <button className="order-details__add" type="button">
+      <button className="order-details__add" type="button" onClick={onAddProduct}>
         <i className="order-details__add-icon bi bi-plus-circle-fill" />
         Добавить продукт
       </button>

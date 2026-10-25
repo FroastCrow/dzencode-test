@@ -75,7 +75,9 @@ docker compose up -d          # (после down -v) создать базу з�
 | Метод | Адрес | Что делает |
 |---|---|---|
 | GET | `/api/orders` | список приходов |
+| POST | `/api/orders` | создать приход (`title`, `description`); ошибки валидации: 400 с полем `errors` |
 | GET | `/api/products` | список продуктов с ценами (формат как в `app.js` из задания) |
+| POST | `/api/products` | создать продукт с ценами в USD и UAH (в одной транзакции) |
 | DELETE | `/api/orders/:id` | удалить приход (его продукты и цены удаляются каскадно) |
 | DELETE | `/api/products/:id` | удалить продукт |
 
@@ -95,7 +97,7 @@ docker compose up -d          # (после down -v) создать базу з�
 - [x] Страница Orders: список приходов (название, количество продуктов с правильным склонением, дата в двух форматах, сумма в USD и UAH)
 - [x] Orders: открытие прихода рядом со списком (клик или клавиатура), закрытие, анимация появления
 - [x] Статус продукта (Свободен / В ремонте) и иконка по типу
-- [ ] Добавление продукта в приход
+- [x] Добавление прихода и продукта в приход: формы в модальном окне, валидация на фронтенде и на сервере
 - [x] Удаление прихода (вместе с его продуктами) и продукта через попап подтверждения (закрытие по Escape и клику по фону)
 - [x] Products: полный список полей (статус, гарантия, состояние, цена в USD и UAH, тип, приход, дата), фильтр по типу, удаление продукта, горизонтальная прокрутка на узких экранах
 - [x] Поиск в TopMenu: фильтр приходов и продуктов по названию (без учёта регистра)
@@ -115,13 +117,14 @@ server/              бэкенд: Express + mysql2
   src/db.js          подключение к MySQL (пул соединений)
   src/socket.js      Socket.io: счётчик активных вкладок
   src/routes/        маршруты API (orders, products)
+  src/validation.js  проверка данных форм на сервере
 src/                 фронтенд
   api.ts             экземпляр Axios для запросов к API
   hooks/             собственные хуки (useActiveTabs: подключение к Socket.io)
-  components/        компоненты (Navigation, TopMenu, PageTransition, DataLoader, OrderItem, OrderDetails, ProductItem, ProductRow, ConfirmDialog)
+  components/        компоненты (Navigation, TopMenu, PageTransition, DataLoader, OrderItem, OrderDetails, ProductItem, ProductRow, ConfirmDialog, Modal, OrderForm, ProductForm)
   pages/             страницы (OrdersPage, ProductsPage)
   store/             Redux: store и slices (orders, products, search)
-  utils/             вспомогательные функции (форматирование дат и сумм, поиск)
+  utils/             вспомогательные функции (форматирование дат и сумм, поиск, валидация форм)
   constants.ts       подписи статусов и типов, иконки типов продуктов
   styles/            глобальные стили и CSS-переменные
   assets/            изображения (логотип)

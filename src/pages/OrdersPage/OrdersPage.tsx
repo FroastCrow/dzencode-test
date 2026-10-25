@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog'
 import OrderDetails from '../../components/OrderDetails/OrderDetails'
+import OrderForm from '../../components/OrderForm/OrderForm'
 import OrderItem from '../../components/OrderItem/OrderItem'
+import ProductForm from '../../components/ProductForm/ProductForm'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { deleteOrder } from '../../store/ordersSlice'
@@ -24,6 +26,10 @@ function OrdersPage() {
   // Що зараз хочуть видалити (null: попап закритий).
   const [orderIdToDelete, setOrderIdToDelete] = useState<number | null>(null)
   const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null)
+
+  // Які форми відкриті: «Новый приход» і «Новый продукт» (для відкритого приходу).
+  const [isOrderFormOpen, setIsOrderFormOpen] = useState(false)
+  const [isProductFormOpen, setIsProductFormOpen] = useState(false)
 
   // Приходи, назва яких підходить під пошук із верхнього меню.
   const visibleOrders = orders.filter((order) => matchesSearch(order.title, searchQuery))
@@ -67,8 +73,12 @@ function OrdersPage() {
   return (
     <section className="orders">
       <header className="orders__header">
-        {/* Форму додавання приходу зробимо на етапі валідації форм */}
-        <button className="orders__add" type="button" aria-label="Добавить приход">
+        <button
+          className="orders__add"
+          type="button"
+          aria-label="Добавить приход"
+          onClick={() => setIsOrderFormOpen(true)}
+        >
           <i className="bi bi-plus" />
         </button>
         <h1 className="orders__title">Приходы / {visibleOrders.length}</h1>
@@ -103,6 +113,7 @@ function OrdersPage() {
             products={getOrderProducts(selectedOrder.id)}
             onClose={() => setSelectedOrderId(null)}
             onDeleteProduct={(productId) => setProductIdToDelete(productId)}
+            onAddProduct={() => setIsProductFormOpen(true)}
           />
         )}
       </div>
@@ -136,6 +147,18 @@ function OrdersPage() {
             <ProductItem product={productToDelete} isCompact />
           </ul>
         </ConfirmDialog>
+      )}
+
+      {/* Форми додавання. Форма є в DOM лише поки відкрита, тому при наступному відкритті поля порожні. */}
+      {isOrderFormOpen && <OrderForm onClose={() => setIsOrderFormOpen(false)} />}
+
+      {/* Форма продукту потрібна лише для відкритого приходу. */}
+      {isProductFormOpen && selectedOrder && (
+        <ProductForm
+          orderId={selectedOrder.id}
+          orderTitle={selectedOrder.title}
+          onClose={() => setIsProductFormOpen(false)}
+        />
       )}
     </section>
   )
