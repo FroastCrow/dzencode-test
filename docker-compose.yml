@@ -1,5 +1,6 @@
-# Поки тут лише база даних MySQL. Сервер і фронтенд додамо сюди на етапі Docker.
-# Запуск: docker compose up -d     Зупинка: docker compose down
+# Увесь застосунок у Docker: база MySQL (db) і застосунок (app: сервер Express + зібраний фронтенд).
+# Запуск з нуля: docker compose up -d --build   → http://localhost:3000
+# Зупинка: docker compose down     Скинути базу до тестових даних: docker compose down -v
 
 services:
   db:
@@ -12,12 +13,36 @@ services:
       MYSQL_USER: inventory
       MYSQL_PASSWORD: inventory
     ports:
-      - '3306:3306' # порт_на_комп'ютері:порт_у_контейнері
+      - '3306:3306' # порт_на_комп'ютері:порт_у_контейнері (для MySQL Workbench і npm run dev)
     volumes:
       # SQL-скрипти з цієї папки MySQL виконує по черзі (01, 02...) лише при першому запуску, коли база порожня.
       - ./database/init:/docker-entrypoint-initdb.d
       # Файли бази лежать у томі (volume), тому дані не зникають після перезапуску контейнера.
       - db-data:/var/lib/mysql
+    # Перевірка «база готова приймати запити». Поки скрипти з init виконуються, MySQL не слухає мережу,
+    # тому ping через 127.0.0.1 не проходить, і сервіс app чекає.
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: . # образ збирається з Dockerfile у корені проєкту
+    container_name: inventory-app
+    restart: unless-stopped
+    environment:
+      # У мережі Docker Compose сервіси знаходять один одного за назвою, тому хост бази це db.
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: inventory
+      DB_PASSWORD: inventory
+      DB_NAME: inventory
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy # запускати app лише тоді, коли healthcheck бази пройшов
 
 volumes:
   db-data:

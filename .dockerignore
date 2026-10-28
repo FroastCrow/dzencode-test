@@ -1,0 +1,10 @@
+# Що не копіювати в образ командою COPY . .
+# Залежності Docker встановлює сам усередині образу, а решта лише сповільнює збірку.
+node_modules
+server/node_modules
+dist
+.git
+_notes
+database
+*.log
+.DS_Store
