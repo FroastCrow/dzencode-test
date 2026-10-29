@@ -2,7 +2,9 @@
 
 SPA-приложение для учёта приходов (Orders) и продуктов (Products). Тестовое задание.
 
-> Статус: в разработке. Список реализованных функций ниже обновляется по мере работы.
+**Рабочая версия:** https://dzencode-inventory.onrender.com
+
+> Бесплатный хостинг засыпает после 15 минут без посетителей, поэтому первое открытие может занять около минуты.
 
 ## Стек
 
@@ -31,7 +33,7 @@ cd dzencode-test
 
 ### Быстрый запуск в Docker (всё приложение)
 
-Требуется только Docker Desktop.
+Требуется только Docker: Docker Desktop (Windows, macOS) или Docker Engine с Compose (Linux). Node.js для этого способа не нужен. Docker Desktop должен быть запущен.
 
 ```bash
 docker compose up -d --build
@@ -46,6 +48,12 @@ docker compose down           # остановить (данные сохран�
 docker compose down -v        # остановить и удалить данные
 docker compose up -d --build  # пересобрать после изменений в коде
 ```
+
+**Если не запускается:**
+
+- `port is already allocated` (порт 3306 или 3000 занят, например локальным MySQL): остановите программу, которая его занимает, или поменяйте левую часть порта в `docker-compose.yml`. Например, `'3307:3306'` для базы (приложение подключается к базе внутри Docker и не зависит от этого порта) или `'8080:3000'` для приложения, тогда оно откроется на http://localhost:8080.
+- `Cannot connect to the Docker daemon` или `error during connect`: Docker Desktop не запущен.
+- Состояние сервисов: `docker compose ps` (база должна быть `healthy`), логи приложения: `docker compose logs app`.
 
 ### Режим разработки
 
@@ -107,7 +115,9 @@ docker compose up -d db       # (после down -v) создать базу з�
 
 ## Деплой
 
-Приложение запускается на Render (контейнер собирается из `Dockerfile`), база данных MySQL работает в Aiven.
+Рабочая версия: https://dzencode-inventory.onrender.com
+
+Приложение запускается на Render (контейнер собирается из `Dockerfile`, после каждого слияния в `main` Render пересобирает его сам), база данных MySQL работает в Aiven.
 
 1. Aiven: создать сервис MySQL (бесплатный план) и выполнить в базе `defaultdb` скрипты `database/init/01-schema.sql` и `database/init/02-seed.sql` (например, через MySQL Workbench).
 2. Render: New → Web Service → этот репозиторий, язык Docker, план Free.
@@ -139,7 +149,8 @@ docker compose up -d db       # (после down -v) создать базу з�
 - [x] Загрузка данных через Axios, индикатор загрузки и сообщение об ошибке
 - [x] Счётчик активных вкладок в TopMenu (Socket.io, обновляется в реальном времени при открытии и закрытии вкладок)
 - [x] Docker для всего приложения: база и приложение запускаются одной командой
-- [ ] Деплой
+- [x] Деплой: приложение на Render, база MySQL в Aiven (https://dzencode-inventory.onrender.com)
+- [x] TypeScript (дополнительно, уровень Junior+)
 
 ## Структура проекта
 
