@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '../api'
-import type { NewProduct, Product } from '../types'
+import type { NewProduct, Product, ProductsState } from '../types'
 import { deleteOrder } from './ordersSlice'
 
 export const fetchProducts = createAsyncThunk('products/fetch', async () => {
@@ -18,11 +18,6 @@ export const deleteProduct = createAsyncThunk('products/delete', async (id: numb
   await api.delete(`/products/${id}`)
   return id
 })
-
-interface ProductsState {
-  items: Product[]
-  status: 'loading' | 'succeeded' | 'failed'
-}
 
 const initialState: ProductsState = {
   items: [],

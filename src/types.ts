@@ -13,6 +13,11 @@ export interface Order {
   description: string
 }
 
+export interface OrdersState {
+  items: Order[]
+  status: 'loading' | 'succeeded' | 'failed' // стан завантаження списку з сервера
+}
+
 // Статус продукту з макета: «Свободен» або «В ремонте».
 // У файлі app.js цього поля немає, додали його, бо воно є на скріншотах.
 export type ProductStatus = 'free' | 'repair'
@@ -30,6 +35,11 @@ export interface Product {
   price: Price[]
   order: number // id приходу, до якого належить продукт
   date: string
+}
+
+export interface ProductsState {
+  items: Product[]
+  status: 'loading' | 'succeeded' | 'failed'
 }
 
 // Дані для створення приходу (з форми). id і дату призначає сервер.

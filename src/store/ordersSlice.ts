@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api } from '../api'
-import type { NewOrder, Order } from '../types'
+import type { NewOrder, Order, OrdersState } from '../types'
 
 // Асинхронні дії (thunk): спершу запит до сервера, потім результат потрапляє в reducer.
 // createAsyncThunk сам відправляє три дії: pending (запит пішов), fulfilled (успіх), rejected (помилка).
 export const fetchOrders = createAsyncThunk('orders/fetch', async () => {
-  // <Order[]>: підказка TypeScript, що сервер поверне масив приходів (як useState<...>).
   const response = await api.get<Order[]>('/orders')
   return response.data // це значення буде в action.payload у fulfilled
 })
@@ -20,11 +19,6 @@ export const deleteOrder = createAsyncThunk('orders/delete', async (id: number) 
   await api.delete(`/orders/${id}`)
   return id
 })
-
-interface OrdersState {
-  items: Order[]
-  status: 'loading' | 'succeeded' | 'failed' // стан завантаження списку з сервера
-}
 
 const initialState: OrdersState = {
   items: [],

@@ -33,10 +33,8 @@ cd dzencode-test
 
 ### Быстрый запуск в Docker (всё приложение)
 
-Требуется только Docker: Docker Desktop (Windows, macOS) или Docker Engine с Compose (Linux). Node.js для этого способа не нужен. Docker Desktop должен быть запущен.
-
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
 Приложение откроется на http://localhost:3000. Первый запуск занимает пару минут: собирается образ и создаётся база с тестовыми данными.
@@ -48,12 +46,6 @@ docker compose down           # остановить (данные сохран�
 docker compose down -v        # остановить и удалить данные
 docker compose up -d --build  # пересобрать после изменений в коде
 ```
-
-**Если не запускается:**
-
-- `port is already allocated` (порт 3306 или 3000 занят, например локальным MySQL): остановите программу, которая его занимает, или поменяйте левую часть порта в `docker-compose.yml`. Например, `'3307:3306'` для базы (приложение подключается к базе внутри Docker и не зависит от этого порта) или `'8080:3000'` для приложения, тогда оно откроется на http://localhost:8080.
-- `Cannot connect to the Docker daemon` или `error during connect`: Docker Desktop не запущен.
-- Состояние сервисов: `docker compose ps` (база должна быть `healthy`), логи приложения: `docker compose logs app`.
 
 ### Режим разработки
 
